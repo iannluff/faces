@@ -1,21 +1,5 @@
-%----------------------------------------------------------------
-% File:     recognize_faces_test.m
-%----------------------------------------------------------------
-%
-% Author:   Marek Rychlik (rychlik@arizona.edu)
-% Date:     Sun Dec  8 15:55:17 2024
-% Copying:  (C) Marek Rychlik, 2020. All rights reserved.
-% 
-%----------------------------------------------------------------
-% A driver for function RECOGNIZE_FACES.
-%
-% It passes a number of images from the database of images
-% and predicts the labels.
-%
-% As a visualization tool, it burns predicted labels into the images
-% and displays a montage.
-
 location = fullfile('lfw');
+parpool;
 
 disp('Creating image datastore...');
 % We read images in their original format
@@ -35,7 +19,7 @@ Y = imds.Labels;
 YPred = recognize_faces(RGB);
 
 % Burn labels into the images
-for j=1:numel(RGB)
+parfor j=1:numel(RGB)
     RGBannotated{j} = insertObjectAnnotation(RGB{j}, 'rectangle', [10,10,100,20], YPred(j));
 end
 
